@@ -15,7 +15,16 @@
 
 //headerTitle.innerHTML='<h3>why so serious</h3>';
 //header.style.borderBottom='solid 3px #000';
-var textOfTitle='ADD ITEM';
-var titleFontChange=document.querySelector('.title');
-titleFontChange.innerHTML=textOfTitle.bold();
-titleFontChange.style.color='green';
+// var textOfTitle='ADD ITEM';
+// var titleFontChange=document.querySelector('.title');
+// titleFontChange.innerHTML=textOfTitle.bold();
+// titleFontChange.style.color='green';
+
+var items=document.getElementsByClassName('list-group-item');
+console.log(items[2]);
+items[2].style.backgroundColor='green';
+
+for(let i=0;i<items.length;i++){
+    items[i].style.color='red';
+    items[i].style.fontWeight='bold';
+}
