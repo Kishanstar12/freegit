@@ -1,50 +1,86 @@
-var form = document.getElementById('my-form');
 
-//var userName = document.getElementById('name');
-//var email = document.getElementById('email');
 
-//console.log(userName);
-//console.log(email);
+var submit = document.getElementById('submit');
+submit.addEventListener('click', addData);
 
-form.addEventListener('submit', addLocalStorage);
-
-function addLocalStorage(e) {
-    e.preventDefault();
-    var user=document.getElementById('users');
-    user.textContent='';
-    var userName = document.getElementById('name').value;
-    var email = document.getElementById('email').value;
-
-    //var str=`{"name":"${userName}","email":"${email}"}`;
-
-    //console.log(str);
-
-    //var json=JSON.parse(str);
-    //console.log(json);
-
-    var obj={
-        name:userName,
-        email:email
+function addData() {
+    var name = document.getElementById("name").value;
+    var email = document.getElementById("email").value;
+    var phone = document.getElementById("phone").value;
+    if(localStorage.getItem(email)!==null){
+        alert("This email id already registered !");
+        return;
     }
 
-    localStorage.setItem(`usedDeatails${email}`,JSON.stringify(obj) );
-    userName = '';
-    email = '';
-
-    for (const key in localStorage) {
-        var obj1=JSON.parse(localStorage.getItem(key));
-        //console.log(obj1);
-        var newDiv=document.createElement('li');
-        var newDivText=document.createTextNode(`${obj1.name} ${obj1.email}`);
-        newDiv.appendChild(newDivText);
-        newDiv.style.textAlign='centre';
-        newDiv.style.fontSize='20px';
-        newDiv.style.listStyle.type='circle';
-        //var user=document.getElementById('users');
-        user.appendChild(newDiv);
-      }
+    let obj ={
+        name : name,
+        email : email,
+        phone : phone
+    };
+    
+    let myObj_serialized = JSON.stringify(obj);
+    localStorage.setItem(email,myObj_serialized);
+    // localStorage.setItem('Nam', name);
+    // localStorage.setItem('Email', email);
+    // localStorage.setItem('Phone', phone);
 }
 
+ 
+ for(let i=0;i<localStorage.length;i++){
+    let key=localStorage.key(i);//it gives the key
+    let data = localStorage.getItem(key);
+    let dataName = JSON.parse(data).name;
+    let dataEmail = JSON.parse(data).email;
+
+ 
+    var li = `<li id="${dataEmail}">${dataName} <button  onClick="deleteuser('${dataEmail}')">delete</button>
+    <button onClick="updateUser('${dataEmail}')">edit</button></li>`;
+    let target = document.querySelector('.usersList');
+    target.innerHTML = target.innerHTML + li;
+    console.log(li);
+ }
+
+ function deleteuser(em){
+    localStorage.removeItem(em);
+    deleteUserFromScreen(em);
+
+ }
+ function deleteUserFromScreen(em){
+    let parentNode = document.querySelector('.usersList');
+    let childNode = document.getElementById(em);
+    parentNode.removeChild(childNode);
+ }
 
 
-//userDetailskishangautam945@gmail.com userDetailskishangautam945@gmail.comm userDetailskishangautam945@gmai.comm
+ function updateUser(em){
+    let nam = JSON.parse(localStorage.getItem(em)).name;
+    let emai = JSON.parse(localStorage.getItem(em)).email;
+    let ph = JSON.parse(localStorage.getItem(em)).phone;
+    
+    document.getElementById('name').value = nam;
+    document.getElementById('email').value = emai;
+    document.getElementById('phone').value = ph;
+    
+    deleteUserFromScreen(em);
+ }
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
